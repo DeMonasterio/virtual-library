@@ -16,8 +16,9 @@ const PlayerController = ({ camera, scene }) => {
       if (!controls.isLocked) {
         controls.lock();
       } else {
-        // 🎯 Detectar libro con Raycaster
+        //detectar libro con Raycaster
         const raycaster = new THREE.Raycaster();
+        raycaster.far=1000;
         const mouse = new THREE.Vector2();
 
         // Convertir coordenadas del click al sistema de Three.js
@@ -48,10 +49,10 @@ const PlayerController = ({ camera, scene }) => {
           move.current.forward = -1;
           break;
         case "KeyA":
-          move.current.right = -1;
+          move.current.right = 1;
           break;
         case "KeyD":
-          move.current.right = 1;
+         move.current.right = -1;
           break;
       }
     };

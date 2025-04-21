@@ -1,23 +1,29 @@
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import PlayerController from "./PlayerController";
-import useFetchBooks from "../hooks/useFetchBooks";
+import {createCamera} from "./Camera.jsx"
+import Hud from "./Hud/Hud.jsx"
 
-const LibraryMap = () => {
+const LibraryMap = ({books}, fov) => {
   const mountRef = useRef(null);
   const cameraRef = useRef(null);
   const rendererRef = useRef(null);
   const sceneRef = useRef(null);
-  const books = useFetchBooks(); // 🔥 Obtener libros desde el hook
-
+  
   useEffect(() => {
     if (!mountRef.current || books.length === 0) return;
+
+
+//Cosas de la camara//
+    cameraRef.current = createCamera(fov);
+    const camera = cameraRef.current;
+    camera.position.set(0, 1.8, 5);
+//Fin de cosas de la camara//
+
 
     const scene = new THREE.Scene();
     sceneRef.current = scene;
 
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-    cameraRef.current = camera;
 
     const renderer = new THREE.WebGLRenderer({ antialias: true });
     renderer.setSize(window.innerWidth, window.innerHeight);
@@ -33,12 +39,11 @@ const LibraryMap = () => {
     const light = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(light);
 
-    camera.position.set(0, 1.8, 5);
-
+  
     // 📚 Generar estanterías dinámicamente
     const booksPerShelf = 5;
     const shelves = Math.ceil(books.length / booksPerShelf);
-    
+
     for (let i = 0; i < shelves; i++) {
       const x = (i % 5) * 4 - 10; // Espaciado horizontal
       const z = Math.floor(i / 5) * -4; // Espaciado vertical
@@ -73,12 +78,15 @@ const LibraryMap = () => {
     return () => {
       mountRef.current?.removeChild(renderer.domElement);
     };
-  }, [books]);
+  }, [books,fov]);
 
   return (
-    <div ref={mountRef}>
-      {cameraRef.current && sceneRef.current && <PlayerController camera={cameraRef.current} scene={sceneRef.current} />}
-    </div>
+    <>
+      <div ref={mountRef}>
+        {cameraRef.current && sceneRef.current && <PlayerController camera={cameraRef.current} scene={sceneRef.current} />}
+      </div>
+      <Hud />
+    </>
   );
 };
 

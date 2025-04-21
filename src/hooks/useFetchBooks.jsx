@@ -10,7 +10,7 @@ const useFetchBooks = () => {
       try {
         const allBooks = [];
         for (const category of categories) {
-          const res = await fetch(`https://openlibrary.org/search.json?q=${category}&limit=20`);
+          const res = await fetch(`https://openlibrary.org/search.json?q=${category}&limit=50`);
           const data = await res.json();
           allBooks.push(...data.docs);
         }
