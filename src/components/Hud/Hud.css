@@ -1,3 +1,20 @@
+.BookUI {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: red;
+  padding: 16px 24px;
+  border-radius: 8px;
+  color: white;
+  pointer-events: none; /* Para que los eventos de clic pasen a los elementos de abajo */
+  z-index: 20;
+}
+
+.book-title {
+  margin: 0;
+  font-size: 20px;
+}
+
 .hud {
     position: absolute;
     top: 0;

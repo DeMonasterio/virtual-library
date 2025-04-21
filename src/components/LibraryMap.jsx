@@ -1,24 +1,27 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import PlayerController from "./PlayerController";
-import {createCamera} from "./Camera.jsx"
+import { createCamera } from "./Camera.jsx"
 import Hud from "./Hud/Hud.jsx"
 
-const LibraryMap = ({books}, fov) => {
+const LibraryMap = ({ books }, fov) => {
   const mountRef = useRef(null);
   const cameraRef = useRef(null);
   const rendererRef = useRef(null);
   const sceneRef = useRef(null);
-  
+  const [isBookOpen, setisBookOpen] = useState(0)
+  const [selectedBook, setSelectedBook] = useState(null);
+
+
   useEffect(() => {
     if (!mountRef.current || books.length === 0) return;
 
 
-//Cosas de la camara//
+    //Cosas de la camara//
     cameraRef.current = createCamera(fov);
     const camera = cameraRef.current;
     camera.position.set(0, 1.8, 5);
-//Fin de cosas de la camara//
+    //Fin de cosas de la camara//
 
 
     const scene = new THREE.Scene();
@@ -39,8 +42,8 @@ const LibraryMap = ({books}, fov) => {
     const light = new THREE.AmbientLight(0xffffff, 0.5);
     scene.add(light);
 
-  
-    // 📚 Generar estanterías dinámicamente
+
+    // Generar estanterías dinámicamente
     const booksPerShelf = 5;
     const shelves = Math.ceil(books.length / booksPerShelf);
 
@@ -54,7 +57,7 @@ const LibraryMap = ({books}, fov) => {
       shelf.position.set(x, 1.5, z);
       scene.add(shelf);
 
-      // 📖 Agregar libros a la estantería
+      // Agregar libros a la estantería
       for (let j = 0; j < booksPerShelf; j++) {
         const bookIndex = i * booksPerShelf + j;
         if (bookIndex >= books.length) break;
@@ -78,14 +81,21 @@ const LibraryMap = ({books}, fov) => {
     return () => {
       mountRef.current?.removeChild(renderer.domElement);
     };
-  }, [books,fov]);
+  }, [books, fov]);
 
   return (
     <>
       <div ref={mountRef}>
-        {cameraRef.current && sceneRef.current && <PlayerController camera={cameraRef.current} scene={sceneRef.current} />}
+        {cameraRef.current && sceneRef.current && (
+          <PlayerController
+            camera={cameraRef.current}
+            scene={sceneRef.current}
+            setisBookOpen={setisBookOpen}
+            setSelectedBook={setSelectedBook}
+          />
+        )}
       </div>
-      <Hud />
+      <Hud isBookOpen={isBookOpen} selectedBook={selectedBook} />
     </>
   );
 };

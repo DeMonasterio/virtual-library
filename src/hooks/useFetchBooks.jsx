@@ -1,8 +1,6 @@
 import { useEffect, useState } from "react";
 
-const categories = ["fiction", "science", "history", "programming", "art"];
-
-const useFetchBooks = () => {
+const useFetchBooks = (categories) => {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {

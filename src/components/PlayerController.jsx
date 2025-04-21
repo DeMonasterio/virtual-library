@@ -1,8 +1,8 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three";
 import { PointerLockControls } from "three/examples/jsm/controls/PointerLockControls";
 
-const PlayerController = ({ camera, scene }) => {
+const PlayerController = ({ camera, scene, setisBookOpen, setSelectedBook }) => {
   const controlsRef = useRef(null);
   const move = useRef({ forward: 0, right: 0 });
 
@@ -11,28 +11,25 @@ const PlayerController = ({ camera, scene }) => {
 
     const controls = new PointerLockControls(camera, document.body);
     controlsRef.current = controls;
+    scene.add(controls.object);
 
     const handleClick = (event) => {
       if (!controls.isLocked) {
         controls.lock();
       } else {
-        //detectar libro con Raycaster
         const raycaster = new THREE.Raycaster();
-        raycaster.far=1000;
+        raycaster.far = 1000;
         const mouse = new THREE.Vector2();
-
-        // Convertir coordenadas del click al sistema de Three.js
         mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
         mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-
         raycaster.setFromCamera(mouse, camera);
         const intersects = raycaster.intersectObjects(scene.children, true);
 
         if (intersects.length > 0) {
           const object = intersects[0].object;
           if (object.userData.type === "book") {
-            console.log("📖 Libro seleccionado:", object.userData.title);
-            
+            setisBookOpen(true);
+            setSelectedBook(object.userData.title);
           }
         }
       }
@@ -90,7 +87,8 @@ const PlayerController = ({ camera, scene }) => {
         movement.addScaledVector(direction, move.current.forward * speed * delta);
         movement.addScaledVector(right, move.current.right * speed * delta);
 
-        camera.position.add(movement);
+        controls.object.position.add(movement); 
+
       }
     };
     animate();
