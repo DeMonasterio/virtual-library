@@ -1,0 +1,68 @@
+.fallback-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #ffffff;
+  color: white;
+  font-family: monospace;
+  text-align: center;
+  padding: 1rem;
+}
+
+.book-spinner {
+  width: 60px;
+  height: 60px;
+  /* border: 6px solid #555; */
+  border-top: 6px solid #00aaff;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin-bottom: 20px;
+}
+
+.loading-text {
+  font-size: 1.2rem;
+  color: #ccc;
+}
+
+
+
+
+
+
+
+.fallback-wrapper {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background: #ffffff;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+  }
+  
+  .fallback-wrapper.fade-out {
+    opacity: 0;
+    pointer-events: none;
+  }
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+

@@ -1,0 +1,137 @@
+/* Contenedor principal */
+.hud {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  font-family: 'Segoe UI', sans-serif;
+  color: white;
+}
+
+/* 🎯 Crosshair */
+.crosshair {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 2rem;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  user-select: none;
+  pointer-events: none;
+}
+
+/* 📖 Panel del libro */
+.BookUI {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: clamp(320px, 80%, 700px);
+  background-color: rgba(20, 20, 20, 0.92);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  display: flex;
+  gap: 20px;
+  padding: 20px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.9);
+  pointer-events: auto;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.book-cover {
+  width: 140px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: 8px;
+  box-shadow: 0 0 6px rgba(0, 0, 0, 0.8);
+  background: #222;
+}
+.book-cover.placeholder {
+  background: #333;
+  color: #aaa;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-style: italic;
+}
+
+.book-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.book-title {
+  font-size: 1.4rem;
+  margin: 0 0 5px;
+}
+
+.book-author,
+.book-year,
+.book-editions,
+.book-language,
+.book-closing {
+  font-size: 0.95rem;
+  margin: 2px 0;
+}
+
+.book-link {
+  display: inline-block;
+  margin-top: 5px;
+  color: #00ffff;
+  text-decoration: none;
+  font-weight: 500;
+}
+.book-link:hover {
+  text-decoration: underline;
+}
+
+
+/* 🎵 Reproductor de música */
+.music-player {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: rgba(10, 10, 10, 0.85);
+  padding: 10px 15px;
+  border-radius: 10px;
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 0.95rem;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 0 12px rgba(0, 255, 255, 0.15);
+}
+
+.music-player button {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-size: 1.3rem;
+  transition: transform 0.1s;
+}
+.music-player button:hover {
+  color: #00ffff;
+  transform: scale(1.2);
+}
+
+.music-player input[type="range"] {
+  accent-color: #00ffff;
+  cursor: pointer;
+}
+
+/* ✨ Animaciones */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -10%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, 0%);
+  }
+}
